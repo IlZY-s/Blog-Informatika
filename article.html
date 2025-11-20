@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Artikel - Detail</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner"><div class="brand"><div class="logo">USAHID</div></div>
+      <nav class="main-nav"><a href="index.html">Home</a><a href="articles.html">Articles</a></nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:30px 0">
+    <div id="article" class="card" style="padding:22px">Loading...</div>
+  </main>
+
+  <script>
+    function qs(name){
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    async function load(){
+      const id = qs('id'); if(!id) return document.getElementById('article').innerText='Article not found';
+      const res = await fetch('/api/articles/'+encodeURIComponent(id));
+      if(!res.ok) return document.getElementById('article').innerText='Article not found';
+      const d = await res.json();
+      const a = d.article;
+      document.getElementById('article').innerHTML = `<h1>${escapeHtml(a.title)}</h1><p><small>By ${escapeHtml(a.author||'')}</small></p><div>${escapeHtml(a.body).replace(/\n/g,'<br>')}</div>`;
+    }
+    function escapeHtml(s){return String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+    load();
+  </script>
+</body>
+</html>

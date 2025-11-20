@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Review Alumni</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner"><div class="brand"><div class="logo">USAHID</div></div>
+      <nav class="main-nav"><a href="index.html">Home</a><a href="articles.html">Articles</a><a href="login.html">Login</a></nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:30px 0">
+    <h1>Review Alumni</h1>
+    <div id="list" class="review-row"></div>
+
+    <h3 style="margin-top:20px">Tambah Review</h3>
+    <form id="revForm" class="card" style="padding:16px;max-width:700px">
+      <label>Rating (1-5)</label>
+      <input id="rating" type="number" min="1" max="5" value="5">
+      <label>Comment</label>
+      <textarea id="comment" rows="4"></textarea>
+      <div style="margin-top:8px"><button class="btn btn-primary" type="submit">Kirim Review</button></div>
+    </form>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><div>Footer</div><div class="foot-links">About · Contact</div></div></footer>
+
+  <script>
+    async function load(){
+      const res = await fetch('/api/reviews');
+      const d = await res.json();
+      const list = document.getElementById('list'); list.innerHTML='';
+      d.reviews.forEach(r=>{
+        const el = document.createElement('div'); el.className='review-card card'; el.innerHTML = `<strong>${escapeHtml(r.user_name)}</strong><p>${escapeHtml(r.comment)}</p><small>${escapeHtml(r.rating+' ★')}</small>`;
+        list.appendChild(el);
+      });
+    }
+    function escapeHtml(s){return String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+    load();
+
+    document.getElementById('revForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const rating = Number(document.getElementById('rating').value);
+      const comment = document.getElementById('comment').value.trim();
+      // require login
+      const token = localStorage.getItem('ps_token');
+      if(!token) return alert('Silakan login untuk mengirim review');
+      const res = await fetch('/api/reviews',{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+token},body:JSON.stringify({rating,comment})});
+      if(res.ok){ alert('Terima kasih'); document.getElementById('comment').value=''; load(); } else { alert('Gagal mengirim review'); }
+    });
+  </script>
+</body>
+</html>

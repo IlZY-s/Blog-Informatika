@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Program Studi Informatika</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">USAHID</div>
+        <div class="site-title">Admin</div>
+      </div>
+      <nav class="main-nav">
+        <a href="index.html">View Site</a>
+        <button id="logoutBtn" class="btn btn-outline">Logout</button>
+      </nav>
+    </div>
+  </header>
+  <main class="container admin-home">
+    <div class="admin-layout">
+      <aside class="admin-sidebar">
+        <div class="logo">USAHID</div>
+        <h3>Program Studi Informatika<br><small style="opacity:0.9">Universitas Sahid Surakarta</small></h3>
+        <ul class="admin-menu">
+          <li><button data-view="dashboard" class="active">Dashboard</button></li>
+          <li><button data-view="kelola-artikel">Kelola Artikel</button></li>
+          <li><button data-view="kelola-review">Kelola Review</button></li>
+          <li><button data-view="kelola-pesan">Kelola Pesan</button></li>
+          <li><button data-view="informasi-web">Informasi Web</button></li>
+          <li><button id="sidebarLogout">Logout</button></li>
+        </ul>
+      </aside>
+
+      <section class="admin-main">
+        <div id="view-dashboard" class="admin-view">
+          <h1>Dashboard</h1>
+          <p>Ringkasan singkat aktivitas situs.</p>
+        </div>
+
+        <div id="view-kelola-artikel" class="admin-view" style="display:none">
+          <h2>Form Pengajuan Artikel</h2>
+          <div class="admin-card-form">
+            <form id="articleForm">
+              <label class="muted-label">Tanggal</label>
+              <input type="date" id="artDate" required>
+
+              <label class="muted-label">Nama Artikel</label>
+              <input type="text" id="artTitle" placeholder="Nama" required>
+
+              <label class="muted-label">Upload File (.pdf)</label>
+              <input type="file" id="artFile" accept="application/pdf">
+
+              <div style="margin-top:12px"><button class="yellow-btn" type="submit">+ Tambah</button></div>
+            </form>
+          </div>
+        </div>
+
+        <div id="view-kelola-review" class="admin-view" style="display:none">
+          <h2>Kelola Review</h2>
+          <div id="reviewsList"></div>
+        </div>
+
+        <div id="view-kelola-pesan" class="admin-view" style="display:none">
+          <h2>Kelola Pesan</h2>
+          <div id="messagesList"></div>
+        </div>
+
+        <div id="view-informasi-web" class="admin-view" style="display:none">
+          <h2>Informasi Web</h2>
+          <p>Pengaturan informasi umum situs.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/admin-ui.js"></script>
+</body>
+</html>

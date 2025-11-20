@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Program - Artikel</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>.article-card{padding:18px}</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand"><div class="logo">USAHID</div></div>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="reviews.html">Review</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:30px 0">
+    <h1>Program - Artikel</h1>
+    <div id="list" class="feature-grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner"><div>Footer</div><div class="foot-links">About · Contact</div></div>
+  </footer>
+
+  <script>
+    async function load(){
+      const res = await fetch('/api/articles');
+      const d = await res.json();
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      d.articles.forEach(a=>{
+        const el = document.createElement('a'); el.className='card article-card'; el.href='article.html?id='+encodeURIComponent(a.id);
+        el.innerHTML = `<h3>${escapeHtml(a.title)}</h3><p>${escapeHtml((a.body||'').slice(0,180))}...</p><small>By ${escapeHtml(a.author||'')}</small>`;
+        list.appendChild(el);
+      });
+    }
+    function escapeHtml(s){return String(s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+    load();
+  </script>
+</body>
+</html>

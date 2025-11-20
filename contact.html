@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner"><div class="brand"><div class="logo">USAHID</div></div>
+      <nav class="main-nav"><a href="index.html">Home</a><a href="about.html">About</a></nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding:30px 0">
+    <h1>Contact Us</h1>
+    <form id="contactForm" class="card" style="padding:16px;max-width:700px">
+      <label>Nama</label>
+      <input id="name">
+      <label>Email</label>
+      <input id="email" type="email">
+      <label>Pesan</label>
+      <textarea id="message" rows="6"></textarea>
+      <div style="margin-top:8px"><button class="btn btn-primary" type="submit">Kirim</button></div>
+    </form>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><div>Footer</div><div class="foot-links">About · Contact</div></div></footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const res = await fetch('/api/messages',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,email,message})});
+      if(res.ok){ alert('Pesan terkirim. Terima kasih!'); document.getElementById('message').value=''; }
+      else alert('Gagal mengirim pesan');
+    });
+  </script>
+</body>
+</html>
